@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Text, View ,Platform} from 'react-native';
 import Tw from 'twrnc';
 import { Provider } from 'react-redux';
 import { store } from './Store';
@@ -16,20 +16,28 @@ export default function App() {
     <NavigationContainer>
       <StatusBar hidden />
       <Provider store={store}>
-        <Stack.Navigator>
+        <KeyboardAvoidingView 
+          style={Tw`flex-1`} 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+          keyboardVerticalOffset={Platform.OS ==='ios' ? -64 : 0 }
+        >
 
-          <Stack.Screen name="Home" component={HomeScreen} 
-            options={{
-              headerShown:false,presentation:""
-            }}
-          />
-          <Stack.Screen name="Map" component={MapScreen}
-            options={{
-              headerShown:false,
-            }}
-          />
-        
-        </Stack.Navigator>  
+
+          <Stack.Navigator>
+
+            <Stack.Screen name="Home" component={HomeScreen} 
+              options={{
+                headerShown:false,presentation:""
+              }}
+            />
+            <Stack.Screen name="Map" component={MapScreen}
+              options={{
+                headerShown:false,
+              }}
+            />
+    
+          </Stack.Navigator>
+        </KeyboardAvoidingView>  
       </Provider>
     </NavigationContainer>
   );
