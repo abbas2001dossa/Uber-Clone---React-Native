@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
 import { SelectDestination, SelectOrigin } from '../Slices/navSlice';
 import MapViewDirections from 'react-native-maps-directions';
 import { GOOGLE_MAPS_APIKEY } from '@env';
 import Tw from 'twrnc';
+import { setTravelTimeInformation} from '../Slices/navSlice';
 
 const Map = () => {
   const mapRef = useRef(null);
   const origin = useSelector(SelectOrigin);
   const destination = useSelector(SelectDestination);
-
+  const dispatch = useDispatch();
 
   // to calculate pricing and time taken for ride 
   useEffect(()=>{
@@ -24,7 +25,7 @@ const Map = () => {
       .then((res)=> res.json())
       .then(data =>{
         console.log(data);
-        
+        dispatch(setTravelTimeInformation(data.rows[0].elements[0]));
       })
 
 

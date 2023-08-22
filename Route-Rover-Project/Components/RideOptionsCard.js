@@ -4,8 +4,11 @@ import Tw from 'twrnc';
 import {useNavigation} from '@react-navigation/native';
 import ChevronLeftIcon from '../icons/ChevronLeftIcons';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { SelectTravelTimeInformation } from '../Slices/navSlice';
 
 const RideOptionsCard = () => {
+  const TravelTimeInformation = useSelector(SelectTravelTimeInformation);
   const navigation =useNavigation();
   const [selected,setSelected]=useState(null);
   const data =[
@@ -37,13 +40,15 @@ const RideOptionsCard = () => {
 
   ]
 
+  const surgeChargeRate = 0.5 ; 
+
   return (
       <SafeAreaView>
         <View>
           <TouchableOpacity onPress={navigation.goBack} style={Tw` z-50 absolute top-3.5 left-5 p-3 rounded-full`}>
             <ChevronLeftIcon size={30} color={"black"}></ChevronLeftIcon> 
           </TouchableOpacity>
-          <Text style={Tw`text-center text-xl py-5`}> Select a Ride </Text>
+          <Text style={Tw`text-center text-xl py-5`}> Select a Ride ~ {TravelTimeInformation?.distance.text}</Text>
         </View>
         
         
@@ -54,7 +59,7 @@ const RideOptionsCard = () => {
           renderItem={({item})=>(
             <TouchableOpacity 
               onPress={()=> setSelected(item)} 
-              style={Tw`px-10  flex-row items-center justify-between ${
+              style={Tw`px-5  flex-row items-center justify-between ${
                 item.id===selected?.id && "bg-gray-300"
               }`}
             >
@@ -71,22 +76,22 @@ const RideOptionsCard = () => {
               </Image>
               <View style={Tw`-ml-6`}>
                 <Text style={Tw`text-xl font-semibold`}> {item.title} </Text>
-                <Text style={Tw``}> travel time ...</Text>
+                <Text style={Tw``}> {TravelTimeInformation?.duration.text} Travel Time</Text>
               </View>
 
-              <Text style={Tw`text-xl`}>   PKR 300</Text>
+              <Text style={Tw`text-xl`}>   PKR {Math.round(item.multiplier* TravelTimeInformation?.duration.value*surgeChargeRate)}</Text>
             </TouchableOpacity>
           )}
         >
         </FlatList>
         
-        <View>
+        <View style={Tw`mt-auto border-t border-gray-200`}>
           <TouchableOpacity
             disabled={!selected}
             onPress
             style={Tw`bg-black py-3 m-2 ${!selected && "bg-gray-300"}`}
           >
-            <Text style={Tw`text-center text-white text-l`}>
+            <Text style={Tw`text-center text-white`}>
               Choose {selected?.title}
             </Text>
           </TouchableOpacity>
