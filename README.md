@@ -28,7 +28,7 @@
 
 # Functionalities Covered : 
   - Using Google Auto Complete to search for pickup point and drop off point, simultaneously dispalying the whole route on the MAP.
-  - Giving explicit navigating options to the users such that the suer can navigaet itself from the ride details screen to the home screen
+  - Giving explicit navigating options to the users such that the user can navigate itself from the ride details screen to the home screen
     and viceversa easily.
   - Displaying the total cost, ride duration and uber ride type to the user; such that the user can opt a ride according to their budget.
 
